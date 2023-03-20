@@ -87,35 +87,39 @@ func (b *Boost) FromTape(tape *bpu.Tape) (err error) {
 		// set difficulty
 		b.Spend.Difficulty = *flt
 
-		if len(tape.Cell) > 20 && tape.Cell[18].Ops != nil && (*tape.Cell[18].Ops == "OP_5" || *tape.Cell[19].Ops == "OP_5") {
+		if len(tape.Cell) > 20 && (tape.Cell[18].Ops != nil && *tape.Cell[18].Ops == "OP_5") || (tape.Cell[19].Ops != nil && *tape.Cell[19].Ops == "OP_5") {
 			b.Spend.Version = 1
 		} else if len(tape.Cell) > 20 && tape.Cell[18].Ops != nil && (*tape.Cell[18].Ops == "OP_6" || *tape.Cell[19].Ops == "OP_6") {
 			b.Spend.Version = 2
 		}
 
 		// Set topic / tag
-		dataTagB, errDataTag := base64.StdEncoding.DecodeString(*tape.Cell[baseIdx+2].B)
+		if tape.Cell[baseIdx+2].B != nil {
+			dataTagB, errDataTag := base64.StdEncoding.DecodeString(*tape.Cell[baseIdx+2].B)
 
-		if errDataTag != nil {
-			log.Fatal("error:", errDataTag)
-			err = errDataTag
-			return
-		}
-		if len(dataTagB) > 0 {
-			topic := string(dataTagB)
-			b.Spend.Topic = &topic
-		}
-
-		// Set nonce
-		dataNonce, errNonce := base64.StdEncoding.DecodeString(*tape.Cell[baseIdx+3].B)
-
-		if errNonce != nil {
-			log.Fatal("error:", errNonce)
-			err = errNonce
-			return
+			if errDataTag != nil {
+				log.Fatal("error:", errDataTag)
+				err = errDataTag
+				return
+			}
+			if len(dataTagB) > 0 {
+				topic := string(dataTagB)
+				b.Spend.Topic = &topic
+			}
 		}
 
-		b.Spend.Nonce = binary.LittleEndian.Uint32(dataNonce)
+		if tape.Cell[baseIdx+3].B != nil {
+			// Set nonce
+			dataNonce, errNonce := base64.StdEncoding.DecodeString(*tape.Cell[baseIdx+3].B)
+
+			if errNonce != nil {
+				log.Fatal("error:", errNonce)
+				err = errNonce
+				return
+			}
+
+			b.Spend.Nonce = binary.LittleEndian.Uint32(dataNonce)
+		}
 
 		// Set additional data
 		b.Spend.AdditionalData = tape.Cell[baseIdx+4].S

@@ -301,3 +301,31 @@ func TestV2ContractRedeem(t *testing.T) {
 		t.Fatalf("expected version: %d got: %d\n", expected.Version, b.Redeem.Version)
 	}
 }
+
+func TestSampleBoostBreakerRaw(t *testing.T) {
+
+	// redeem - a512c846b0154d23325f40ef87a088d747252fc2a179cca067a6026ee59c5ea6
+	// expected values
+	expectedTxid := "d4cb7c93f874a9246c5545231b5892c7c88c99bb45540c81182838cd4a9d6346"
+
+	var expected = &BoostSpend{
+		Nonce:   3901135,
+		Version: 2,
+	}
+
+	// Get BOB data from raw tx string
+	bobData, err := bob.NewFromRawTxString(sampleBoostBreakerRaw)
+	if err != nil {
+		t.Fatalf("error occurred: %s", err.Error())
+	}
+
+	var b *Boost
+	b, err = NewFromTape(&bobData.Out[0].Tape[0])
+	if err != nil {
+		t.Fatalf("error occurred: %s\n", err.Error())
+	} else if expectedTxid != bobData.Tx.H {
+		t.Fatalf("expected txid: %s got: %s\n", expectedTxid, bobData.Tx.H)
+	} else if b.Spend.Category != expected.Category {
+		t.Fatalf("expected signature: %d got: %d\n", expected.Category, b.Spend.Category)
+	}
+}
