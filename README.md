@@ -9,6 +9,7 @@
 [![Sponsor](https://img.shields.io/badge/sponsor-BitcoinSchema-181717.svg?logo=github&style=flat&v=3)](https://github.com/sponsors/BitcoinSchema)
 [![Donate](https://img.shields.io/badge/donate-bitcoin-ff9900.svg?logo=bitcoin&style=flat&v=3)](https://gobitcoinsv.com/#sponsor?utm_source=github&utm_medium=sponsor-link&utm_campaign=go-boost&utm_term=go-boost&utm_content=go-boost)
 <br>
+<br>
 
 ## Installation
 
@@ -16,6 +17,7 @@
 ```shell script
 go get -u github.com/bitcoinschema/go-boost
 ```
+<br>
 
 ## Documentation
 View the generated [documentation](https://pkg.go.dev/github.com/bitcoinschema/go-boost)
@@ -29,8 +31,8 @@ It takes a BOB formatted transaction and produces an easy-to-use BOOST struct wi
 
 ```go
 type Boost struct {
-	Redeem BoostRedeem `json:"redeem" bson:"redeem"`
-	Spend  BoostSpend  `json:"spend" bson:"spend"`
+	Redeem Redeem `json:"redeem" bson:"redeem"`
+	Spend  Spend  `json:"spend" bson:"spend"`
 }
 ```
 <br>
@@ -64,7 +66,7 @@ var b *boost.Boost
 b, err = boostNewFromTape(&bobData.In[0].Tape[0])
 ```
 
-### V1 Contract Spend Example
+V1 Contract Spend Example
 ```go
 	// Get BOB data from string
 	bobData, err := bob.NewFromRawTxString(boostTx)
@@ -91,7 +93,7 @@ boost.BoostSpend Result:
 }
 ```
 
-More examples can be found in tests.
+_More examples can be found in tests._
 
 <br>
 
