@@ -6,13 +6,16 @@ import (
 	"github.com/bitcoinschema/go-bob"
 )
 
+const theory = "theory"
+const whitepaper = "this is the Boost whitepaper"
+
 func TestV1BountySpend(t *testing.T) {
 
 	// spend - c5c7248302683107aa91014fd955908a7c572296e803512e497ddf7d1f458bd3
-	theoryStr := "theory"
-	additionalDataStr := "this is the Boost whitepaper"
+	theoryStr := theory
+	additionalDataStr := whitepaper
 
-	var expected = &BoostSpend{
+	var expected = &Spend{
 		Content:        "7332808b5283f8acedcc6240a42f669cc3d305413201527852061fd5b283d0d8",
 		Difficulty:     0.01,
 		Topic:          &theoryStr,
@@ -55,7 +58,7 @@ func TestV1BountyRedeem(t *testing.T) {
 	expectedTxid := "99bbbc28d39427bf530c05dc90db12e0953122fe5055afce6370d89a0085c28d"
 
 	// expected values
-	var expected = &BoostRedeem{
+	var expected = &Redeem{
 		Signature:       "3044022100ac4003d62ddadbf0bff9cbe63d0f6ad740494ee7fcf5f296cfc056f52f087c7c021f2f9e2db03b141ce88edc1c10850a0831dea63edd6c6a8040d80e24737e6d4a41",
 		PubKey:          "03097e9768554d40c0b5b18e44db2a15bbd137a373c39af46033049477bcbb79a4",
 		Nonce:           31497,
@@ -78,8 +81,8 @@ func TestV1BountyRedeem(t *testing.T) {
 	b, err = NewFromTape(&bobData.In[0].Tape[0])
 	if err != nil {
 		t.Fatalf("error occurred: %s\n", err.Error())
-	} else if bobData.Tx.H != expectedTxid {
-		t.Fatalf("expected txid: %s got: %s\n", expectedTxid, bobData.Tx.H)
+	} else if bobData.Tx.Tx.H != expectedTxid {
+		t.Fatalf("expected txid: %s got: %s\n", expectedTxid, bobData.Tx.Tx.H)
 	} else if b.Redeem.Signature != expected.Signature {
 		t.Fatalf("expected signature: %s got: %s\n", expected.Signature, b.Redeem.Signature)
 	} else if b.Redeem.Nonce != expected.Nonce {
@@ -105,9 +108,9 @@ func TestV2BountySpend(t *testing.T) {
 
 	// expected values
 	expectedTxid := "12aaef887e8348e83eac2937849de22a0bda8f7c2c819199bbcbb20b01722144"
-	theoryStr := "theory"
-	additionalDataStr := "this is the Boost whitepaper"
-	var expected = &BoostSpend{
+	theoryStr := theory
+	additionalDataStr := whitepaper
+	var expected = &Spend{
 		Version:        2,
 		Content:        "7332808b5283f8acedcc6240a42f669cc3d305413201527852061fd5b283d0d8",
 		Category:       1111,
@@ -129,8 +132,8 @@ func TestV2BountySpend(t *testing.T) {
 	b, err = NewFromTape(&bobData.Out[0].Tape[0])
 	if err != nil {
 		t.Fatalf("error occurred: %s\n", err.Error())
-	} else if expectedTxid != bobData.Tx.H {
-		t.Fatalf("expected txid: %s got: %s\n", expectedTxid, bobData.Tx.H)
+	} else if expectedTxid != bobData.Tx.Tx.H {
+		t.Fatalf("expected txid: %s got: %s\n", expectedTxid, bobData.Tx.Tx.H)
 	} else if b.Spend.Category != expected.Category {
 		t.Fatalf("expected category: %d got: %d\n", expected.Category, b.Spend.Category)
 	} else if b.Spend.Nonce != expected.Nonce {
@@ -161,7 +164,7 @@ func TestV2BountyRedeem(t *testing.T) {
 	//	  miner_pubkey_hash: 0x81bb8505a9999135a105e2f0290d55b1b70f7d3f
 	//	}
 
-	var expected = &BoostRedeem{
+	var expected = &Redeem{
 		Signature:       "304502210081cac0bdfb713e8c6632ec8c7b6f1d070b19a43c3b06e05174f25dc9065c6e910220787dd9d0f58f79cda8b7f5b436eb2f8cd6d50dc5271e6216308c286406d4166141",
 		PubKey:          "03e0fd48907c0117600a6326aafe7d43adbc9421a4381bb6579f1ab4912cd25e37",
 		Nonce:           5267719,
@@ -209,11 +212,11 @@ func TestV1ContractSpend(t *testing.T) {
 
 	// expected values
 	expectedTxid := "ed122aa475c02ee049b342d9224bc140f015eee30b8411ad999c6a8378d9766e"
-	theoryStr := "theory"
-	additionalDataStr := "this is the Boost whitepaper"
+	theoryStr := theory
+	additionalDataStr := whitepaper
 	minerAddressStr := "16nhPWCkbkR1bNACwPYULBWyvxQ5MCDZBo"
 
-	var expected = &BoostSpend{
+	var expected = &Spend{
 		Content:        "7332808b5283f8acedcc6240a42f669cc3d305413201527852061fd5b283d0d8",
 		MinerAddress:   &minerAddressStr,
 		Category:       1111,
@@ -236,8 +239,8 @@ func TestV1ContractSpend(t *testing.T) {
 	b, err = NewFromTape(&bobData.Out[0].Tape[0])
 	if err != nil {
 		t.Fatalf("error occurred: %s\n", err.Error())
-	} else if expectedTxid != bobData.Tx.H {
-		t.Fatalf("expected txid: %s got: %s\n", expectedTxid, bobData.Tx.H)
+	} else if expectedTxid != bobData.Tx.Tx.H {
+		t.Fatalf("expected txid: %s got: %s\n", expectedTxid, bobData.Tx.Tx.H)
 	} else if b.Spend.Category != expected.Category {
 		t.Fatalf("expected category: %d got: %d\n", expected.Category, b.Spend.Category)
 	} else if b.Spend.Nonce != expected.Nonce {
@@ -261,7 +264,7 @@ func TestV2ContractRedeem(t *testing.T) {
 	// expected values
 	expectedTxid := "a512c846b0154d23325f40ef87a088d747252fc2a179cca067a6026ee59c5ea6"
 
-	var expected = &BoostRedeem{
+	var expected = &Redeem{
 		Signature:   "304402201f94a12ace389cd389ef129dc9b68eb1a357ff6f71a508aa0b3accd90736007702206d316fce43e5ae24a6b07acc342e0f7a5c0d0366a2a00dee00acbb25b8f4f6a941",
 		PubKey:      "03e0fd48907c0117600a6326aafe7d43adbc9421a4381bb6579f1ab4912cd25e37",
 		Nonce:       3901135,
@@ -283,8 +286,8 @@ func TestV2ContractRedeem(t *testing.T) {
 	b, err = NewFromTape(&bobData.In[0].Tape[0])
 	if err != nil {
 		t.Fatalf("error occurred: %s\n", err.Error())
-	} else if expectedTxid != bobData.Tx.H {
-		t.Fatalf("expected txid: %s got: %s\n", expectedTxid, bobData.Tx.H)
+	} else if expectedTxid != bobData.Tx.Tx.H {
+		t.Fatalf("expected txid: %s got: %s\n", expectedTxid, bobData.Tx.Tx.H)
 	} else if b.Redeem.Signature != expected.Signature {
 		t.Fatalf("expected signature: %s got: %s\n", expected.Signature, b.Redeem.Signature)
 	} else if b.Redeem.Nonce != expected.Nonce {
@@ -308,7 +311,7 @@ func TestSampleBoostBreakerRaw(t *testing.T) {
 	// expected values
 	expectedTxid := "d4cb7c93f874a9246c5545231b5892c7c88c99bb45540c81182838cd4a9d6346"
 
-	var expected = &BoostSpend{
+	var expected = &Spend{
 		Nonce:   3901135,
 		Version: 2,
 	}
@@ -323,8 +326,8 @@ func TestSampleBoostBreakerRaw(t *testing.T) {
 	b, err = NewFromTape(&bobData.Out[0].Tape[0])
 	if err != nil {
 		t.Fatalf("error occurred: %s\n", err.Error())
-	} else if expectedTxid != bobData.Tx.H {
-		t.Fatalf("expected txid: %s got: %s\n", expectedTxid, bobData.Tx.H)
+	} else if expectedTxid != bobData.Tx.Tx.H {
+		t.Fatalf("expected txid: %s got: %s\n", expectedTxid, bobData.Tx.Tx.H)
 	} else if b.Spend.Category != expected.Category {
 		t.Fatalf("expected signature: %d got: %d\n", expected.Category, b.Spend.Category)
 	}

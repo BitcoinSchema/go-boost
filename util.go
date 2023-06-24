@@ -4,7 +4,6 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 	"encoding/binary"
-	"log"
 	"math/big"
 	"regexp"
 	"strconv"
@@ -29,6 +28,7 @@ func Reverse(input []byte) []byte {
 	return reversed
 }
 
+// PubkeyHashToAddress converts a pubkey hash to a base58check encoded address
 func PubkeyHashToAddress(pubkeyHash []byte) string {
 	// Add version byte to front (0x00 for mainnet addresses)
 	versionedHash := append([]byte{0x00}, pubkeyHash...)
@@ -51,10 +51,9 @@ func PubkeyHashToAddress(pubkeyHash []byte) string {
 
 func targetToDifficulty(target string) (*float64, error) {
 
-	dataTarget, error := base64.StdEncoding.DecodeString(target)
-	if error != nil {
-		log.Fatal("error target:", error)
-		return nil, error
+	dataTarget, err := base64.StdEncoding.DecodeString(target)
+	if err != nil {
+		return nil, err
 	}
 
 	ib := binary.BigEndian.Uint32(Reverse(dataTarget))
@@ -64,7 +63,9 @@ func targetToDifficulty(target string) (*float64, error) {
 	t.Mul(t, big.NewInt(2).Exp(big.NewInt(2), big.NewInt(8*(int64(ib/0x01000000)-3)), nil))
 
 	a := float64(0xFFFF0000000000000000000000000000000000000000000000000000) // genesis difficulty
-	b, err := strconv.ParseFloat(t.String(), 64)
+
+	var b float64
+	b, err = strconv.ParseFloat(t.String(), 64)
 	if err != nil {
 		emptyResult := 0.0
 		return &emptyResult, err

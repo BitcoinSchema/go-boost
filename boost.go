@@ -5,12 +5,12 @@ const Prefix = "boostpow"
 
 // Boost is Boost Pow data object
 type Boost struct {
-	Redeem BoostRedeem `json:"redeem" bson:"redeem"`
-	Spend  BoostSpend  `json:"spend" bson:"spend"`
+	Redeem Redeem `json:"redeem" bson:"redeem"`
+	Spend  Spend  `json:"spend" bson:"spend"`
 }
 
-// BoostSpend is the parsed spend data. Version unknown when 0.
-type BoostSpend struct {
+// Spend is the parsed spend data. Version unknown when 0.
+type Spend struct {
 	Hash           string  `json:"hash,omitempty" bson:"hash,omitempty"`
 	Content        string  `json:"content,omitempty" bson:"content,omitempty"`
 	Difficulty     float64 `json:"difficulty,omitempty" bson:"difficulty,omitempty"`
@@ -25,7 +25,8 @@ type BoostSpend struct {
 	Version        int32   `json:"version" bson:"version"`
 }
 
-type BoostRedeem struct {
+// Redeem is the parsed redeem data
+type Redeem struct {
 	Signature       string `json:"signature" bson:"signature"`                 // 3044022100ac4003d62ddadbf0bff9cbe63d0f6ad740494ee7fcf5f296cfc056f52f087c7c021f2f9e2db03b141ce88edc1c10850a0831dea63edd6c6a8040d80e24737e6d4a41
 	PubKey          string `json:"pubkey" bson:"pubkey"`                       // pubkey: 03097e9768554d40c0b5b18e44db2a15bbd137a373c39af46033049477bcbb79a4
 	Nonce           uint32 `json:"nonce" bson:"nonce"`                         // nonce : 31497

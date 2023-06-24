@@ -1,3 +1,4 @@
+// Package boost provides a way to parse boostpow data from a bpu.Tape
 package boost
 
 import (
@@ -5,7 +6,6 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 	"fmt"
-	"log"
 	"math/big"
 
 	"github.com/bitcoinschema/go-bpu"
@@ -26,10 +26,10 @@ func (b *Boost) FromTape(tape *bpu.Tape) (err error) {
 			return
 		}
 
-		data, error := base64.StdEncoding.DecodeString(*tape.Cell[2].B)
+		var data []byte
+		data, err = base64.StdEncoding.DecodeString(*tape.Cell[2].B)
 		if err != nil {
-			log.Fatal("error:", error)
-			err = error
+			return err
 		}
 		var baseIdx uint8
 		if len(data) == 4 {
@@ -37,7 +37,7 @@ func (b *Boost) FromTape(tape *bpu.Tape) (err error) {
 			b.Spend.Category = binary.LittleEndian.Uint32(data)
 			baseIdx = 3
 		} else if len(data) == 20 {
-			isContract = true
+			// isContract = true
 			// Contract
 			baseIdx = 4
 			// Miner address
@@ -47,13 +47,12 @@ func (b *Boost) FromTape(tape *bpu.Tape) (err error) {
 			b.Spend.MinerAddress = &dataStr
 
 			// Set the category
-			dataCat, error := base64.StdEncoding.DecodeString(*tape.Cell[3].B)
+			var dataCat []byte
+			dataCat, err = base64.StdEncoding.DecodeString(*tape.Cell[3].B)
 			if err != nil {
-				log.Fatal("error:", error)
-				err = error
+				return err
 			}
 			b.Spend.Category = binary.LittleEndian.Uint32(dataCat)
-
 		}
 
 		if tape.Cell[baseIdx].S == nil {
@@ -66,7 +65,6 @@ func (b *Boost) FromTape(tape *bpu.Tape) (err error) {
 		// Calculate the difficulty from target
 		dataTarget, errTarget := base64.StdEncoding.DecodeString(*tape.Cell[baseIdx+1].B)
 		if errTarget != nil {
-			log.Fatal("error target:", errTarget)
 			err = errTarget
 			return
 		}
@@ -79,7 +77,6 @@ func (b *Boost) FromTape(tape *bpu.Tape) (err error) {
 		// get difficulty
 		flt, errDifficulty := targetToDifficulty(*tape.Cell[baseIdx+1].B)
 		if errDifficulty != nil {
-			log.Fatal("error difficulty:", errDifficulty)
 			err = errDifficulty
 			return
 		}
@@ -87,9 +84,11 @@ func (b *Boost) FromTape(tape *bpu.Tape) (err error) {
 		// set difficulty
 		b.Spend.Difficulty = *flt
 
-		if len(tape.Cell) > 20 && (tape.Cell[18].Ops != nil && *tape.Cell[18].Ops == "OP_5") || (tape.Cell[19].Ops != nil && *tape.Cell[19].Ops == "OP_5") {
+		if len(tape.Cell) > 20 && (tape.Cell[18].Ops != nil && *tape.Cell[18].Ops == "OP_5") ||
+			(tape.Cell[19].Ops != nil && *tape.Cell[19].Ops == "OP_5") {
 			b.Spend.Version = 1
-		} else if len(tape.Cell) > 20 && tape.Cell[18].Ops != nil && (*tape.Cell[18].Ops == "OP_6" || *tape.Cell[19].Ops == "OP_6") {
+		} else if len(tape.Cell) > 20 && tape.Cell[18].Ops != nil && (*tape.Cell[18].Ops == "OP_6" ||
+			*tape.Cell[19].Ops == "OP_6") {
 			b.Spend.Version = 2
 		}
 
@@ -98,7 +97,6 @@ func (b *Boost) FromTape(tape *bpu.Tape) (err error) {
 			dataTagB, errDataTag := base64.StdEncoding.DecodeString(*tape.Cell[baseIdx+2].B)
 
 			if errDataTag != nil {
-				log.Fatal("error:", errDataTag)
 				err = errDataTag
 				return
 			}
@@ -113,7 +111,6 @@ func (b *Boost) FromTape(tape *bpu.Tape) (err error) {
 			dataNonce, errNonce := base64.StdEncoding.DecodeString(*tape.Cell[baseIdx+3].B)
 
 			if errNonce != nil {
-				log.Fatal("error:", errNonce)
 				err = errNonce
 				return
 			}
@@ -134,7 +131,6 @@ func (b *Boost) FromTape(tape *bpu.Tape) (err error) {
 		dataNonce, errNonce := base64.StdEncoding.DecodeString(*tape.Cell[2].B)
 
 		if errNonce != nil {
-			log.Fatal("error:", errNonce)
 			err = errNonce
 			return
 		}
@@ -145,7 +141,6 @@ func (b *Boost) FromTape(tape *bpu.Tape) (err error) {
 		dataTimestamp, errTimestamp := base64.StdEncoding.DecodeString(*tape.Cell[3].B)
 
 		if errTimestamp != nil {
-			log.Fatal("error:", errTimestamp)
 			err = errNonce
 			return
 		}
@@ -156,9 +151,7 @@ func (b *Boost) FromTape(tape *bpu.Tape) (err error) {
 
 		// Set extra nonce 1
 		dataNonce1, errNonce1 := base64.StdEncoding.DecodeString(*tape.Cell[5].B)
-
 		if errNonce1 != nil {
-			log.Fatal("error:", errNonce1)
 			err = errNonce1
 			return
 		}
@@ -186,7 +179,6 @@ func (b *Boost) FromTape(tape *bpu.Tape) (err error) {
 		}
 
 		if errMinerPkh != nil {
-			log.Fatal("error:", errMinerPkh)
 			err = errMinerPkh
 			return
 		}
