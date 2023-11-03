@@ -3,8 +3,8 @@ module github.com/bitcoinschema/go-boost
 go 1.19
 
 require (
-	github.com/bitcoinschema/go-bob v0.4.1
-	github.com/bitcoinschema/go-bpu v0.1.1
+	github.com/bitcoinschema/go-bob v0.4.3
+	github.com/bitcoinschema/go-bpu v0.1.3
 	github.com/libsv/go-bk v0.1.6
 )
 
