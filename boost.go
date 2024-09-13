@@ -27,13 +27,21 @@ type Spend struct {
 
 // Redeem is the parsed redeem data
 type Redeem struct {
-	Signature       string `json:"signature" bson:"signature"`                 // 3044022100ac4003d62ddadbf0bff9cbe63d0f6ad740494ee7fcf5f296cfc056f52f087c7c021f2f9e2db03b141ce88edc1c10850a0831dea63edd6c6a8040d80e24737e6d4a41
-	PubKey          string `json:"pubkey" bson:"pubkey"`                       // pubkey: 03097e9768554d40c0b5b18e44db2a15bbd137a373c39af46033049477bcbb79a4
-	Nonce           uint32 `json:"nonce" bson:"nonce"`                         // nonce : 31497
-	Timestamp       uint32 `json:"timestamp" bson:"timestamp"`                 // timestamp : 1677268580
-	ExtraNonce2     string `json:"extra_nonce_2" bson:"extra_nonce_2"`         // extra_nonce_2 : "0f0445b186e64adc"
-	ExtraNonce1     uint32 `json:"extra_nonce_1" bson:"extra_nonce_1"`         // extra_nonce_1 : 909479219
-	MinerPubKeyHash string `json:"miner_pubkey_hash" bson:"miner_pubkey_hash"` // miner_pubkey_hash: 0xa3c10ac097a7da0009a786cc17edc1391a3bddf6
+	// 3044022100ac4003d62ddadbf0bff9cbe63d0f6ad740494ee7fcf5f296cfc056f52f087c7c\
+	// 021f2f9e2db03b141ce88edc1c10850a0831dea63edd6c6a8040d80e24737e6d4a41
+	Signature string `json:"signature" bson:"signature"`
+	// pubkey: 03097e9768554d40c0b5b18e44db2a15bbd137a373c39af46033049477bcbb79a4
+	PubKey string `json:"pubkey" bson:"pubkey"`
+	// nonce : 31497
+	Nonce uint32 `json:"nonce" bson:"nonce"`
+	// timestamp : 1677268580
+	Timestamp uint32 `json:"timestamp" bson:"timestamp"`
+	// extra_nonce_2 : "0f0445b186e64adc"
+	ExtraNonce2 string `json:"extra_nonce_2" bson:"extra_nonce_2"`
+	// extra_nonce_1 : 909479219
+	ExtraNonce1 uint32 `json:"extra_nonce_1" bson:"extra_nonce_1"`
+	// miner_pubkey_hash: 0xa3c10ac097a7da0009a786cc17edc1391a3bddf6
+	MinerPubKeyHash string `json:"miner_pubkey_hash" bson:"miner_pubkey_hash"`
 	Version         int32  `json:"version" bson:"version"`
 }
 
