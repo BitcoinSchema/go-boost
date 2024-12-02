@@ -3,7 +3,7 @@ module github.com/bitcoinschema/go-boost
 go 1.23.1
 
 require (
-	github.com/bitcoin-sv/go-sdk v1.1.15
+	github.com/bitcoin-sv/go-sdk v1.1.16
 	github.com/bitcoinschema/go-bob v0.5.0
 	github.com/bitcoinschema/go-bpu v0.2.0
 )
