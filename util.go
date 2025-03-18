@@ -8,7 +8,7 @@ import (
 	"regexp"
 	"strconv"
 
-	base58 "github.com/bitcoin-sv/go-sdk/compat/base58"
+	base58 "github.com/bsv-blockchain/go-sdk/compat/base58"
 )
 
 // RemoveLBR removes linebreaks
