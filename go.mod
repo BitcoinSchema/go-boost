@@ -5,7 +5,7 @@ go 1.24.3
 require (
 	github.com/bitcoinschema/go-bob v0.5.2
 	github.com/bitcoinschema/go-bpu v0.2.2
-	github.com/bsv-blockchain/go-sdk v1.2.1
+	github.com/bsv-blockchain/go-sdk v1.2.2
 )
 
 require (
