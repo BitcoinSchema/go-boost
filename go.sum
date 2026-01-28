@@ -2,8 +2,8 @@ github.com/bitcoinschema/go-bob v0.5.2 h1:DKABIT6NCScvkeyGVCdpbxHb0EzcbXzKpvbS1S
 github.com/bitcoinschema/go-bob v0.5.2/go.mod h1:wiDgN//GF1u9OwA1TrxHZZuE9wDKtkW8T8xGf5RRFY0=
 github.com/bitcoinschema/go-bpu v0.2.2 h1:F/eIC8XhzwgptpA1+rgYQo8bzT51nVozdXpASsxPIno=
 github.com/bitcoinschema/go-bpu v0.2.2/go.mod h1:zppAI/4uAi+lSKBAc7QtWp98d+iczCB6CnGrGV75fAQ=
-github.com/bsv-blockchain/go-sdk v1.2.14 h1:Yhp/UIYByE5pC2OXqYPK1fe0d8cVPqywaWcfCb/oZ2o=
-github.com/bsv-blockchain/go-sdk v1.2.14/go.mod h1:tP9RkD+1BKw2KSXSQwh2j/h01PoZ2FEuzN1z089iU+Y=
+github.com/bsv-blockchain/go-sdk v1.2.15 h1:YKpoWFXAmRxCNMFeRmk4XOLXID6VswiWNiV/xZuR9OA=
+github.com/bsv-blockchain/go-sdk v1.2.15/go.mod h1:tP9RkD+1BKw2KSXSQwh2j/h01PoZ2FEuzN1z089iU+Y=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/pkg/errors v0.9.1 h1:FEBLx1zS214owpjy7qsBeixbURkuhQAwrK5UwLGTwt4=
