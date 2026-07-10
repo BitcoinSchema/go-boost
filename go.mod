@@ -1,6 +1,6 @@
 module github.com/bitcoinschema/go-boost
 
-go 1.24.3
+go 1.25.0
 
 require (
 	github.com/bitcoinschema/go-bob v0.5.3
@@ -10,5 +10,5 @@ require (
 
 require (
 	github.com/pkg/errors v0.9.1 // indirect
-	golang.org/x/crypto v0.47.0 // indirect
+	golang.org/x/crypto v0.52.0 // indirect
 )
